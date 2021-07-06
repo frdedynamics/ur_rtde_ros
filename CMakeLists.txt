@@ -14,6 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+# find_package(ur_rtde REQUIRED PATHS /home/gizem/Documents/OnedriveHVL/Workspaces/UniversalRobots/ur_rtde/build/ur_rtde)
+
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
