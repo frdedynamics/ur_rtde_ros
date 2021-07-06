@@ -62,4 +62,11 @@ def initialize_ros_node():
         rate.sleep()
 
 if __name__ == '__main__':
-    initialize_ros_node()
+    global rtde_c, rtde_r
+    try:
+        initialize_ros_node()
+    except KeyboardInterrupt:
+        rtde_c.stopL(0.1)
+        rtde_c.stopJ(0.1)
+        rospy.signal_shutdown("KeyboardInterrupt")
+        raise
