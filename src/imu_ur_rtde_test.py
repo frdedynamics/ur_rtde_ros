@@ -19,24 +19,14 @@ test_str = String()
 
 
 def main():
-    rtde_c = RTDEControl("172.31.1.144")
+    rtde_c = RTDEControl("172.31.1.144", RTDEControl.FLAG_USE_EXT_UR_CAP)
     rospy.init_node('ur_rtde_test')
     pub = rospy.Publisher('/test_str', String, queue_size=1)
     rate = rospy.Rate(50)
 
-    velocity = 0.5
-    acceleration = 0.5
-    blend_1 = 0.0
-    blend_2 = 0.02
-    blend_3 = 0.0
-    path_pose1 = [0.431, 0.633, 0.035, 4.384, -1.320, 1.148, velocity, acceleration, blend_1]
-    path_pose2 = [0.119, 0.888, -0.006, 4.738, -0.354, 0.113, velocity, acceleration, blend_2]
-    path_pose3 = [-0.349, 0.752, 0.163, 4.635, 0.362, -0.448, velocity, acceleration, blend_3]
-    path = [path_pose1, path_pose2, path_pose3]
-
     while not rospy.is_shutdown():
         try:
-            rtde_c.moveL(path)
+            rtde_c.moveL([-0.143, -0.435, 0.20, -0.001, 3.12, 0.04], 0.5, 0.3)
             test_str.data = "Gizem"
             print(test_str)
             pub.publish(test_str)
