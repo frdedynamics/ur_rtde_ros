@@ -43,10 +43,14 @@ def main():
     sub = rospy.Subscriber('/test_move_cmd', Vector3, cb_test_move)
     pub = rospy.Publisher('/ur_cmd', Vector3, queue_size=1)
 
-    rate = rospy.Rate(1000)  # I can run as fastest as 125 Hz
+    rate = rospy.Rate(125)
 
     rtde_c.moveL([0.106, 0.715, -0.0, 2.616, -2.477, -1.510], 0.5, 0.3)
     target = rtde_r.getActualTCPPose()
+
+    dt = 1.0/500  # 2ms
+    lookahead_time = 0.1
+    gain = 300
 
     while not rospy.is_shutdown():
         global prev_ur
@@ -58,6 +62,7 @@ def main():
             # print(rtde_c.getActualJointPositionsHistory())
             # rtde_c.moveJ([d2r(92.70), d2r(-121.12), d2r(-92.18), d2r(-174.31), d2r(-87.61), d2r(-91.58)], 0.5, 0.3)
             # rtde_c.moveL([0.106+ur_cmd.x, 0.715+ur_cmd.y, 0.0+ur_cmd.z, 2.616, -2.477, -1.510], 0.5, 0.3)
+            rtde_c.servoL([0.106+ur_cmd.x, 0.715+ur_cmd.y, 0.0+ur_cmd.z, 2.616, -2.477, -1.510], 0.5, 0.3, dt, lookahead_time, gain)
             # print(ur_cmd)
             pub.publish(ur_cmd)
             rate.sleep()
